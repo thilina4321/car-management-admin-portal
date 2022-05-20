@@ -24,7 +24,7 @@ function Upgrade() {
                 <h4 className="title">Light Bootstrap Dashboard PRO React</h4>
                 <p className="category">
                   Are you looking for more components? Please check our Premium
-                  Version of Light Bootstrap Dashboard React.
+                  Version of Light Bootstrap Dashboard
                 </p>
                 <br></br>
               </div>
