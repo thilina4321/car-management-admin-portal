@@ -9,6 +9,7 @@ import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
 import FavouriteCars from "./views/FavouriteCars";
 import Login from "./views/Login";
+import NewUser from "./views/NewUser";
 
 const dashboardRoutes = [
   
@@ -45,6 +46,13 @@ const dashboardRoutes = [
     name: "Loyal Customers",
     icon: "nc-icon nc-paper-2",
     component: Typography,
+    layout: "/admin",
+  },
+  {
+    path: "/new-customers",
+    name: "New User",
+    icon: "nc-icon nc-paper-2",
+    component: NewUser,
     layout: "/admin",
   },
   // {
