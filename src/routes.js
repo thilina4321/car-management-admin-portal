@@ -9,6 +9,8 @@ import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
 import FavouriteCars from "./views/FavouriteCars";
 import Login from "./views/Login";
+import NewUser from "./views/NewUser";
+import Custom from "./views/Custom";
 
 const dashboardRoutes = [
   
@@ -47,6 +49,13 @@ const dashboardRoutes = [
     component: Typography,
     layout: "/admin",
   },
+  {
+    path: "/new-customers",
+    name: "New User",
+    icon: "nc-icon nc-paper-2",
+    component: NewUser,
+    layout: "/admin",
+  },
   // {
   //   path: "/icons",
   //   name: "Icons",
@@ -66,6 +75,13 @@ const dashboardRoutes = [
     name: "Emails",
     icon: "nc-icon nc-bell-55",
     component: Notifications,
+    layout: "/admin",
+  },
+  {
+    path: "/custom",
+    name: "General",
+    icon: "nc-icon nc-bell-55",
+    component: Custom,
     layout: "/admin",
   },
   
