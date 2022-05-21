@@ -22,7 +22,7 @@ const InputComponent = (props) => {
     onChange={(e) => setValue(e.target.value)}
     defaultValue={value}
     placeholder={label}
-    type="text"
+    type={type}
   ></Form.Control> 
                                                                 
     </Col>

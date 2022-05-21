@@ -1,4 +1,6 @@
-import React from "react";
+import InputComponent from "components/InputComponent/InputComponent";
+import { httpRequest } from "http/Http";
+import React, { useState } from "react";
 
 // react-bootstrap components
 import {
@@ -21,6 +23,22 @@ function SendMails() {
 const params = useParams()
 console.log(params);
 
+const [email, setemail] = useState("")
+const [text, settext] = useState("")
+const [subject, setsubject] = useState("")
+
+
+    
+
+    
+
+    const sendMail = async()=>{
+      const data = {email, text, subject}
+      console.log(data);
+      const request = await httpRequest({ url : 'home/mail', method :'post', data })
+      console.log(request['data'], "==========");
+    }
+
   return (
     <>
       <Container fluid>
@@ -32,38 +50,18 @@ console.log(params);
               </Card.Header>
               <Card.Body>
                 <Form>
+                <InputComponent md="12" label="Email" value={email} setValue={setemail}  />
+                <InputComponent md="12" label="Subject" value={text} setValue={setsubject}  />
+
                   
                   
-                  <Row>
-                    <Col md="12">
-                      <Form.Group>
-                        <label>Email Address</label>
-                        <Form.Control
-                          defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                          placeholder="Home Address"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <Form.Group>
-                        <label>Email Subject</label>
-                        <Form.Control
-                          defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                          placeholder="Home Address"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                  </Row>
                   
                   <Row>
                     <Col md="12">
                       <Form.Group>
                         <label>Email Description</label>
                         <Form.Control
+                          onChange={(e)=> settext(e.target.value)}
                           cols="80"
                           defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
                           that two seat Lambo."
@@ -75,8 +73,8 @@ console.log(params);
                     </Col>
                   </Row>
                   <Button
+                  onClick={sendMail}
                     className="btn-fill pull-right"
-                    type="submit"
                     variant="info"
                   >
                     Send Mail

@@ -1,4 +1,5 @@
-import React from 'react'
+import { httpRequest } from 'http/Http';
+import React, { useEffect, useState } from 'react'
 import {
     Badge,
     Button,
@@ -13,8 +14,7 @@ import {
 
 import {useHistory} from 'react-router'
 const UserList = () => {
-    const users = [1,2,3,4,5,6]
-
+    const [users, setUsers] = useState([])
     const router = useHistory()
     
 
@@ -22,30 +22,38 @@ const UserList = () => {
         router.push('/admin/name/' + id)
     }
 
+    const getUsers = async ()=>{
+      const reauest = await httpRequest({ url : 'users/find-users', method :'get'})
+      if(reauest.success){
+        setUsers(reauest.users)
+        console.log(reauest.users);
+      }
+    }
+  
+    useEffect(() => {
+      getUsers()
+    }, [])
+
+
   return (
         <Container fluid>
 
-            {users.map((user)=>  <Col style={{cursor:'pointer'}} onClick={()=>userHandler(user)} key={user} md="12">
+            {users.map((user)=>  <Col style={{cursor:'pointer'}} onClick={()=>userHandler(user._id)} key={user._id} md="12">
             <Card className="card-user">
               <div className="card-image">
                
               </div>
               <Card.Body>
                 <div className="author">
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     <img
                       alt="..."
                       className="avatar border-gray"
                       src={require("assets/img/faces/face-3.jpg").default}
                     ></img>
-                    <h5 className="title">Mike Andrew</h5>
-                  </a>
-                  <p className="description">michael24</p>
+                    <h5 className="title"> {`${user.firstName} ${user.secondName}`} </h5>
                 </div>
                 <p className="description text-center">
-                  "Lamborghini Mercy <br></br>
-                  Your chick she so thirsty <br></br>
-                  I'm in that two seat Lambo"
+                  {user.email}
                 </p>
               </Card.Body>
               <hr></hr>

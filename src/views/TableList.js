@@ -36,7 +36,7 @@ function TableList() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    {/* <tr>
                       <td>1</td>
                       <td>Dakota Rice</td>
                       <td>$36,738</td>
@@ -77,7 +77,7 @@ function TableList() {
                       <td>$78,615</td>
                       <td>Chile</td>
                       <td>Gloucester</td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                 </Table>
               </Card.Body>

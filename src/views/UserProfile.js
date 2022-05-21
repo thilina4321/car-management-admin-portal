@@ -1,4 +1,6 @@
-import React from "react";
+import InputComponent from "components/InputComponent/InputComponent";
+import { httpRequest } from "http/Http";
+import React, { Fragment, useEffect, useState } from "react";
 
 // react-bootstrap components
 import {
@@ -21,138 +23,123 @@ function User() {
 const params = useParams()
 console.log(params);
 
+const [vehicleName, setVehicleName] = useState("")
+    const [year, setyear] = useState("")
+    const [image, setimage] = useState("default")
+    const [price, setprice] = useState("")
+    const [description, setdescription] = useState("")
+    const [transmission, settransmission] = useState("")
+    const [fuelType, setfuelType] = useState("")
+    const [seats, setseats] = useState("")
+    const [ac, setac] = useState("")
+
+    const [firstName, setfirstName] = useState("")
+    const [lastName, setlastName] = useState("")
+    const [email, setemail] = useState("")
+    const [defaultPassword, setdefaultPassword] = useState("")
+
+    useEffect(() => {
+      if(params.id){
+        getUser()
+      }
+    }, [params.id])
+
+    const getUser = async ()=>{
+      const request = await httpRequest({url :`users/find-user-and-car/${params.id}`, method:'get'})
+      console.log(request.success);
+      if(request.success){
+        const {firstName, secondName, email} = request.user 
+        const {year , price, description, image, transmission, fuelType, 
+        seats, ac, vehicleName } = request.car 
+
+        setyear(year)
+        setVehicleName(vehicleName)
+        setimage(image)
+        setprice(price)
+        setdescription(description)
+        settransmission(transmission)
+        setfuelType(fuelType)
+        setseats(seats)
+        setac(ac)
+        setfirstName(firstName)
+        setlastName(secondName)
+        setemail(email)
+      }
+    }
+
+    console.log("hellow rold");
+    
+
   return (
-    <>
+      <Fragment>
       <Container fluid>
         <Row>
           <Col md="12">
             <Card>
               <Card.Header>
-                <Card.Title as="h4">Edit Profile</Card.Title>
+                <Card.Title as="h4">{`User - ${firstName} ${lastName}`} </Card.Title>
               </Card.Header>
+
+              <hr />
               <Card.Body>
+              <div className="author" style={{textAlign:'center'}} >
+                    <img
+                      alt="..."
+                      className="avatar border-gray"
+                      src={require("assets/img/faces/face-3.jpg").default}
+                      style={{height:'100px', width:'100px'}}
+                    />
+                </div>
                 <Form>
+                 <Fragment> 
                   <Row>
-                    <Col className="pr-1" md="5">
-                      <Form.Group>
-                        <label>Company (disabled)</label>
-                        <Form.Control
-                          defaultValue="Creative Code Inc."
-                          disabled
-                          placeholder="Company"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col className="px-1" md="3">
-                      <Form.Group>
-                        <label>Username</label>
-                        <Form.Control
-                          defaultValue="michael23"
-                          placeholder="Username"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <Form.Group>
-                        <label htmlFor="exampleInputEmail1">
-                          Email address
-                        </label>
-                        <Form.Control
-                          placeholder="Email"
-                          type="email"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
+                    <InputComponent md="6" label="First Name" value={firstName} setValue={setfirstName}  />
+                    <InputComponent md="6" label="Last Name" value={lastName} setValue={setlastName}  />
+                   
+                    
                   </Row>
-                  <Row>
-                    <Col className="pr-1" md="6">
-                      <Form.Group>
-                        <label>First Name</label>
-                        <Form.Control
-                          defaultValue="Mike"
-                          placeholder="Company"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col className="pl-1" md="6">
-                      <Form.Group>
-                        <label>Last Name</label>
-                        <Form.Control
-                          defaultValue="Andrew"
-                          placeholder="Last Name"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <Form.Group>
-                        <label>Address</label>
-                        <Form.Control
-                          defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                          placeholder="Home Address"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="4">
-                      <Form.Group>
-                        <label>City</label>
-                        <Form.Control
-                          defaultValue="Mike"
-                          placeholder="City"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col className="px-1" md="4">
-                      <Form.Group>
-                        <label>Country</label>
-                        <Form.Control
-                          defaultValue="Andrew"
-                          placeholder="Country"
-                          type="text"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <Form.Group>
-                        <label>Postal Code</label>
-                        <Form.Control
-                          placeholder="ZIP Code"
-                          type="number"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <Form.Group>
-                        <label>About Me</label>
-                        <Form.Control
-                          cols="80"
-                          defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                          that two seat Lambo."
-                          placeholder="Here can be your description"
-                          rows="4"
-                          as="textarea"
-                        ></Form.Control>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Button
+                  <InputComponent  label="Email" value={email} setValue={setemail}  />
+                  
+
+                  </Fragment>
+
+                  <div style={{textAlign:'center', marginTop:'70px'}} />
+
+
+                  <hr />
+
+                  <div className="author" style={{textAlign:'center', marginTop:'70px'}} >
+                    <img
+                      alt="..."
+                      className="avatar border-gray"
+                      src={require("assets/img/faces/face-3.jpg").default}
+                      style={{height:'100px', width:'100px'}}
+                    />
+                </div>
+
+                  <Fragment>
+                    <InputComponent  label="Vehicle Name" value={vehicleName} setValue={setVehicleName}  />
+                    <InputComponent  label="year" value={year} setValue={setyear}  />
+                    <InputComponent  label="price" type="number" value={price} setValue={setprice}  />
+                    <InputComponent  label="description" value={description} setValue={setdescription}  />
+                    <InputComponent  label="transmission" value={transmission} setValue={settransmission}  />
+                    <InputComponent  label="fuel type" value={fuelType} setValue={setfuelType}  />
+                    <InputComponent  label="seat" value={seats} setValue={setseats}  />
+                    <InputComponent  label="ac" value={ac} setValue={setac}  />
+                   {/* <div style={{textAlign:'end'}}>
+                    <Button
+                    onClick={()=>createUserAndCar()}
                     className="btn-fill pull-right"
-                    type="submit"
+                    style={{margin:'1rem'}}
                     variant="info"
                   >
-                    Update Profile
+                    Create User
                   </Button>
+                  </div> */}
+                  </Fragment> 
+                  
+
+                  
                   <div className="clearfix"></div>
                 </Form>
               </Card.Body>
@@ -161,7 +148,7 @@ console.log(params);
           
         </Row>
       </Container>
-    </>
+    </Fragment>
   );
 }
 
