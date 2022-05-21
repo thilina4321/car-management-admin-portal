@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import { httpRequest } from "http/Http";
+import React, { Fragment, useEffect, useState } from "react";
 
 // react-bootstrap components
 import {
@@ -14,16 +15,19 @@ import {
 } from "react-bootstrap";
 
 
-import { useParams} from 'react-router'
+import { useParams, useHistory} from 'react-router'
 import InputComponent from "../components/InputComponent/InputComponent";
 
 function NewUser() {
 
+    
+
 const params = useParams()
+const router = useHistory()
 
     const [vehicleName, setVehicleName] = useState("")
     const [year, setyear] = useState("")
-    const [image, setimage] = useState("")
+    const [image, setimage] = useState("default")
     const [price, setprice] = useState("")
     const [description, setdescription] = useState("")
     const [transmission, settransmission] = useState("")
@@ -37,10 +41,48 @@ const params = useParams()
     const [defaultPassword, setdefaultPassword] = useState("")
 
     const [isNext, setIsNext] = useState(false)
+    const [brands, setBrands] = useState([])
 
 
-     
+    const getBrand = async ()=>{
+        const data = await httpRequest({ url : 'home/brand', method :'get'})
+        console.log(data['data'], "==========");
+        setBrands(data.data)
+      }
+    
+      useEffect(() => {   
+        getBrand()  
+      }, [])
 
+    const createUserAndCar = async ()=>{
+        const data = {vehicleName,
+            year,
+            image,
+            price,
+            description,
+            transmission,
+            fuelType,
+            seats,
+            ac,
+            firstName,
+            secondName :lastName,
+            email,
+            password: defaultPassword}
+
+            const request = await httpRequest({ url : 'users/create-user-and-car', method :'post', data})
+            console.log(request);
+
+        if(request.success){
+            console.log(request.user._id);
+            router.push(`/admin/name/${request.user._id}` )
+        }
+    
+      }
+
+      const onSelect = (e)=>{
+          setVehicleName(e.target.value)
+      }
+    
   return (
     <Fragment>
       <Container fluid>
@@ -55,14 +97,18 @@ const params = useParams()
               <Card.Body>
                 <Form>
                 { isNext == false &&  <Fragment> <Card.Title as="h4"> User Details </Card.Title>
+                <hr />
+
                   <Row>
-                    <InputComponent md="6" label="First Name" value={vehicleName} setValue={setVehicleName}  />
-                    <InputComponent md="6" label="Last Name" value={vehicleName} setValue={setVehicleName}  />
+                    <InputComponent md="6" label="First Name" value={firstName} setValue={setfirstName}  />
+                    
+                    <InputComponent md="6" label="Last Name" value={lastName} setValue={setlastName}  />
                    
                     
                   </Row>
-                  <InputComponent  label="Email" value={vehicleName} setValue={setVehicleName}  />
-                  <InputComponent  label="Default Password" value={vehicleName} setValue={setVehicleName}  />
+                 
+                  <InputComponent  label="Email" value={email} setValue={setemail}  />
+                  <InputComponent  label="Default Password" value={defaultPassword} setValue={setdefaultPassword}  />
                   <div style={{textAlign:'end'}}>
 
                   <Button
@@ -79,7 +125,12 @@ const params = useParams()
 
                   { isNext && <Fragment>
                     <Card.Title as="h4"> Car Details </Card.Title>
-                    <InputComponent  label="Vehicle Name" value={vehicleName} setValue={setVehicleName}  />
+                    <hr />
+
+                    <label> Vehicle Name </label>
+                    <select onChange={onSelect} style={{width:'99%', height:'35px', margin:'auto', marginTop:'5px', borderRadius: '5px'}}> 
+                       {brands.map(b=>  <option key={b.brand} value={b.brand}> {b.brand} </option>) }
+                    </select>
                     <InputComponent  label="year" value={year} setValue={setyear}  />
                     <InputComponent  label="price" type="number" value={price} setValue={setprice}  />
                     <InputComponent  label="description" value={description} setValue={setdescription}  />
@@ -97,6 +148,8 @@ const params = useParams()
                   >
                     Previous
                   </Button><Button
+                                      onClick={()=>createUserAndCar()}
+
                     className="btn-fill pull-right"
                     style={{margin:'1rem'}}
                     variant="info"

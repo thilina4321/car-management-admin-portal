@@ -42,13 +42,13 @@ const dashboardRoutes = [
     component: FavouriteCars,
     layout: "/admin",
   },
-  {
-    path: "/loyal-customers",
-    name: "Loyal Customers",
-    icon: "nc-icon nc-paper-2",
-    component: Typography,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/loyal-customers",
+  //   name: "Loyal Customers",
+  //   icon: "nc-icon nc-paper-2",
+  //   component: Typography,
+  //   layout: "/admin",
+  // },
   {
     path: "/new-customers",
     name: "New User",
@@ -63,13 +63,7 @@ const dashboardRoutes = [
   //   component: Icons,
   //   layout: "/admin",
   // },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   icon: "nc-icon nc-pin-3",
-  //   component: Maps,
-  //   layout: "/admin",
-  // },
+ 
   {
     path: "/emails",
     name: "Emails",
@@ -80,7 +74,7 @@ const dashboardRoutes = [
   {
     path: "/custom",
     name: "General",
-    icon: "nc-icon nc-bell-55",
+    icon: "nc-icon nc-settings-gear-64",
     component: Custom,
     layout: "/admin",
   },

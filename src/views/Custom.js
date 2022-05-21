@@ -16,29 +16,30 @@ import {
 
 import { useParams} from 'react-router'
 import InputComponent from "../components/InputComponent/InputComponent";
-
+import { httpRequest } from "http/Http";
 function Customization() {
 
 const params = useParams()
 
-    const [vehicleName, setVehicleName] = useState("")
-    const [year, setyear] = useState("")
-    const [image, setimage] = useState("")
-    const [price, setprice] = useState("")
-    const [description, setdescription] = useState("")
-    const [transmission, settransmission] = useState("")
-    const [fuelType, setfuelType] = useState("")
-    const [seats, setseats] = useState("")
-    const [ac, setac] = useState("")
-
-    const [firstName, setfirstName] = useState("")
-    const [lastName, setlastName] = useState("")
-    const [email, setemail] = useState("")
-    const [defaultPassword, setdefaultPassword] = useState("")
-
-    const [isNext, setIsNext] = useState(false)
+    const [brand, setBrand] = useState("")
+    
+    const [color, setColor] = useState("")
+    const [berror, setBError] = useState(false)
 
 
+
+    const addBrand = async ()=>{
+        const data = {brand, color}
+        setBError(false)
+        if(!brand || !color){
+            return setBError(true)
+        }
+
+        console.log(data);
+        const req = await httpRequest({url:'home/brand', method:'post', data})
+        console.log(req);
+
+    }
      
 
   return (
@@ -56,14 +57,15 @@ const params = useParams()
                 <Form>
                 
 
-                    <InputComponent  label="Car Brand" value={vehicleName} setValue={setVehicleName}  />
-                    
+                    <InputComponent  label="Car Brand" value={brand} setValue={setBrand}  />
+                    <InputComponent  label="Color" type="color" value={color} setValue={setColor}  />
+                    {berror && <p style={{color:'red'}}> *Please enter details </p> }
                    <div style={{textAlign:'end'}}>
                     <Button
                     className="btn-fill pull-right"
                     style={{margin:'1rem'}}
                     variant="info"
-                    onClick={()=>setIsNext(false)}
+                    onClick={addBrand}
 
                   >
                     Add Car Brand
